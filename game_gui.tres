@@ -1,0 +1,10 @@
+[gd_resource type="Theme" load_steps=2 format=3 uid="uid://cfl3kkw48sa1g"]
+
+[ext_resource type="FontFile" uid="uid://8lkqlsg80j2u" path="res://dices/Enchanted Land.otf" id="1_rv8in"]
+
+[resource]
+default_font = ExtResource("1_rv8in")
+default_font_size = 50
+Label/colors/font_outline_color = Color(0, 0, 0, 1)
+Label/constants/outline_size = 10
+Label/fonts/font = ExtResource("1_rv8in")
