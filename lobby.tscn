@@ -1,0 +1,34 @@
+[gd_scene load_steps=2 format=3 uid="uid://djlvpvv536fvt"]
+
+[ext_resource type="FontFile" uid="uid://8lkqlsg80j2u" path="res://dices/Enchanted Land.otf" id="1_4ql76"]
+
+[node name="lobby" type="Node2D"]
+
+[node name="vbox" type="VBoxContainer" parent="."]
+custom_minimum_size = Vector2(1920, 1080)
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_right = 1920.0
+offset_bottom = 1080.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="HSeparator" type="HSeparator" parent="vbox"]
+custom_minimum_size = Vector2(0, 50)
+layout_mode = 2
+
+[node name="title" type="Label" parent="vbox"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("1_4ql76")
+theme_override_font_sizes/font_size = 100
+text = "LOBBY"
+horizontal_alignment = 1
+
+[node name="HSeparator2" type="HSeparator" parent="vbox"]
+custom_minimum_size = Vector2(0, 50)
+layout_mode = 2
+
+[node name="players" type="GridContainer" parent="vbox"]
+layout_mode = 2
+columns = 3

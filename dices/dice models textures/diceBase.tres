@@ -1,0 +1,9 @@
+[gd_resource type="StandardMaterial3D" format=3 uid="uid://dp2s411gg744v"]
+
+[resource]
+resource_local_to_scene = true
+roughness = 0.1
+emission = Color(1, 1, 1, 1)
+emission_operator = 1
+normal_enabled = true
+normal_scale = 2.0

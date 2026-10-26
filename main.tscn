@@ -1,0 +1,128 @@
+[gd_scene load_steps=18 format=3 uid="uid://c5uyjfdnn7ff4"]
+
+[ext_resource type="Script" path="res://main.gd" id="1_126fm"]
+[ext_resource type="Script" path="res://addons/debug_camera/scripts/DebugCamera3D.gd" id="2_6fvsx"]
+[ext_resource type="Script" path="res://sky.gd" id="2_63djw"]
+[ext_resource type="PackedScene" uid="uid://b4v0sj1343km6" path="res://start.tscn" id="2_y2weu"]
+[ext_resource type="Texture2D" uid="uid://du1n0hifacqo" path="res://table/bgk2.jpg" id="3_guyfl"]
+[ext_resource type="AudioStream" uid="uid://ctqjvs6wpkbib" path="res://table/bgm.wav" id="6_c15xt"]
+[ext_resource type="PackedScene" uid="uid://bkb7co23hyfjo" path="res://table/table.tscn" id="7_a00ab"]
+[ext_resource type="AudioStream" uid="uid://dwuufpnae4pt8" path="res://table/chatter.wav" id="7_clprp"]
+[ext_resource type="Shader" path="res://borderlands.gdshader" id="8_duyxo"]
+[ext_resource type="PackedScene" uid="uid://by6dxeihwo33e" path="res://game_gui.tscn" id="10_ib7me"]
+[ext_resource type="AudioStream" uid="uid://c0uwl86mxrsk5" path="res://sfx/spotlight.wav" id="10_jwt6w"]
+
+[sub_resource type="PanoramaSkyMaterial" id="PanoramaSkyMaterial_0wwf7"]
+panorama = ExtResource("3_guyfl")
+
+[sub_resource type="Sky" id="Sky_86emf"]
+sky_material = SubResource("PanoramaSkyMaterial_0wwf7")
+
+[sub_resource type="Environment" id="Environment_w2hu8"]
+background_mode = 2
+background_canvas_max_layer = 1
+sky = SubResource("Sky_86emf")
+glow_enabled = true
+glow_intensity = 2.0
+glow_strength = 0.7
+glow_bloom = 0.5
+glow_hdr_threshold = 0.8
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_j1amv"]
+render_priority = 0
+shader = ExtResource("8_duyxo")
+shader_parameter/min_step = 0.4
+shader_parameter/max_step = 0.6
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_3t00y"]
+next_pass = SubResource("ShaderMaterial_j1amv")
+transparency = 1
+albedo_color = Color(1, 1, 1, 0.196078)
+
+[sub_resource type="QuadMesh" id="QuadMesh_glxj8"]
+lightmap_size_hint = Vector2i(12, 12)
+material = SubResource("StandardMaterial3D_3t00y")
+flip_faces = true
+size = Vector2(2, 2)
+
+[node name="main" type="Node3D"]
+script = ExtResource("1_126fm")
+
+[node name="gameGui" parent="." instance=ExtResource("10_ib7me")]
+
+[node name="startMenu" parent="." instance=ExtResource("2_y2weu")]
+
+[node name="players" type="Node3D" parent="."]
+
+[node name="Camera3D" type="Camera3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 0.734879, 0.678198, 0, -0.678198, 0.734879, 0, 9.10029, 9.3765)
+script = ExtResource("2_6fvsx")
+
+[node name="sky" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_w2hu8")
+script = ExtResource("2_63djw")
+
+[node name="table" parent="." instance=ExtResource("7_a00ab")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0440436, -1.42889, -0.142103)
+
+[node name="light1" type="SpotLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, -0.00741754, 0.999973, 0, -0.999973, -0.00741754, 0, 41.3413, 0)
+light_color = Color(1, 0.721569, 0.454902, 1)
+light_energy = 6.0
+spot_range = 63.2579
+spot_attenuation = 0.250001
+spot_angle = 56.0238
+spot_angle_attenuation = 0.203063
+
+[node name="light2" type="SpotLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, -1, -8.74228e-08, 0, 8.74228e-08, -1, 0, 9.84231, -100.814)
+light_energy = 0.4
+light_indirect_energy = 0.0
+spot_range = 184.899
+spot_attenuation = 0.366022
+spot_angle = 30.1738
+spot_angle_attenuation = 0.31864
+
+[node name="light3" type="SpotLight3D" parent="."]
+transform = Transform3D(0.0138051, 8.74144e-08, -0.999905, 0, -1, -8.74228e-08, -0.999905, 1.20688e-09, -0.0138051, -123.991, 9.84231, -4.01331)
+light_energy = 0.4
+light_indirect_energy = 0.0
+spot_range = 184.899
+spot_attenuation = 0.366022
+spot_angle = 29.5217
+spot_angle_attenuation = 0.31864
+
+[node name="bgm" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("6_c15xt")
+volume_db = -20.0
+autoplay = true
+
+[node name="chatter" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("7_clprp")
+volume_db = -20.0
+autoplay = true
+
+[node name="announceBattle" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("10_jwt6w")
+volume_db = -10.0
+
+[node name="deathFilter" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -15.5948, 0)
+visible = false
+extra_cull_margin = 16384.0
+mesh = SubResource("QuadMesh_glxj8")
+
+[node name="playerSpawner" type="MultiplayerSpawner" parent="."]
+_spawnable_scenes = PackedStringArray("res://player/player.tscn")
+spawn_path = NodePath("../players")
+
+[node name="roundOverTimer" type="Timer" parent="."]
+wait_time = 4.0
+one_shot = true
+
+[node name="buyTimer" type="Timer" parent="."]
+wait_time = 15.0
+one_shot = true
+
+[connection signal="timeout" from="roundOverTimer" to="." method="_on_round_over_timer_timeout"]
+[connection signal="timeout" from="buyTimer" to="." method="_on_buy_timer_timeout"]
